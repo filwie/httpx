@@ -178,7 +178,8 @@ class URL:
     def host(self) -> str:
         """
         The URL host as a string.
-        Always normlized to lowercase, and IDNA encoded.
+        Always normlized to lowercase, IDNA encoded
+        with square brackets stripped from IPv6 host.
 
         Examples:
 
@@ -187,8 +188,11 @@ class URL:
 
         url = httpx.URL("http://中国.icom.museum")
         assert url.host == "xn--fiqs8s.icom.museum"
+
+        url = httpx.URL("http://[2001:db8:1::242:ac11:2]:5000")
+        assert url.host = "2001:db8:1::242:ac11:2"
         """
-        return self._uri_reference.host or ""
+        return (self._uri_reference.host or "").lstrip('[').rstrip(']')
 
     @property
     def port(self) -> typing.Optional[int]:

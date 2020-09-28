@@ -42,6 +42,20 @@ import httpx
             "https",
             4433,
         ),
+        (
+            "http://[2001:db8:1::242:ac11:2]",
+            "http://[2001:db8:1::242:ac11:2]",
+            "2001:db8:1::242:ac11:2",
+            "http",
+            None,
+        ),
+        (
+            "http://[2001:db8:1::242:ac11:2]:8000",
+            "http://[2001:db8:1::242:ac11:2]:8000",
+            "2001:db8:1::242:ac11:2",
+            "http",
+            8000,
+        ),
     ],
     ids=[
         "http_with_port",
@@ -50,6 +64,8 @@ import httpx
         "https_with_port",
         "http_with_custom_port",
         "https_with_custom_port",
+        "http_with_ipv6_in_brackets",
+        "http_with_ipv6_in_brackets_with_custom_port",
     ],
 )
 def test_idna_url(given, idna, host, scheme, port):
